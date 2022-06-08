@@ -3,27 +3,48 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace la_mia_pizzeria_static.Controllers
 {
+
+
+
     public class PizzaController : Controller
     {
+
+
+        public static PizzaContext db = new PizzaContext();
+
         //List<Pizza> pizzaList = new List<Pizza>();
-        public static pizzaList pizze;
+        public static pizzaList pizze = null;
         public IActionResult Pizzeria()
         {
-            pizze = new pizzaList();
+
+            if (pizze == null)
+            {
+                Pizza Margherita = new Pizza("Margherita", "Ingredienti: Mozzarella, Pomodoro e Basilico", 6);
+                Pizza Boscaiola = new Pizza("Boscaiola", "Ingredienti: Mozzarella, Salsiccia e Funghi", 7);
+                Pizza Bufala = new Pizza("Bufala", "Ingredienti: Mozzarella di bufala, Pomodoro e Basilico", 7);
+                Pizza Formaggi = new Pizza("Formaggi", "Ingredienti: Mozzarella, Gorgonzola, Fontina e Taleggio", 9);
+                Pizza Salame = new Pizza("Salame", "Ingredienti: Mozzarella, pomodoro e Salame piccante", 8);
+                Pizza Funghi = new Pizza("Funghi", "Ingredienti: Mozzarella, pomodoro e Funghi", 7);
+
+                pizze = new();
+                //pizze.ListaPizze.Add(Margherita);
+                //pizze.ListaPizze.Add(Boscaiola);
+                //pizze.ListaPizze.Add(Bufala);
+                //pizze.ListaPizze.Add(Formaggi);
+                //pizze.ListaPizze.Add(Salame);
+                //pizze.ListaPizze.Add(Funghi);
+
+                db.Add(Margherita);
+                db.Add(Boscaiola);
+                db.Add(Bufala);
+                db.SaveChanges();
+
+                //List<Pizza> Pizze = db.Pizzas.OrderBy(pizza => pizza.Nome).ToList<Pizza>();
+                //Console.WriteLine(Pizze);
+            }
 
 
-            Pizza Pizza1 = new Pizza(0, "Margherita", "Pomodoro Mozzarella", 10);
-
-            Pizza Pizza2 = new Pizza(1, "Marinara", "Pomodoro Origano", 10);
-
-            Pizza Pizza3 = new Pizza(2, "Diavola", "Pomodoro Mozzarella Salame piccante", 15);
-
-
-            pizze.ListaPizze.Add(Pizza1);
-            pizze.ListaPizze.Add(Pizza2);
-            pizze.ListaPizze.Add(Pizza3);
-
-            return View(pizze);
+            return View(db);
         }
 
 
@@ -65,7 +86,8 @@ namespace la_mia_pizzeria_static.Controllers
 
         public IActionResult ShowPizza(int id)
         {
-            return View("ShowPizza", pizze.ListaPizze[id]);
+            return View("ShowPizza", db.Pizzas.Find(id));
+
         }
 
         public IActionResult AggiornaPizza(Pizza pizza)
@@ -90,7 +112,7 @@ namespace la_mia_pizzeria_static.Controllers
             //Pizza updatePizza = new Pizza();
             //updatePizza = (Pizza)pizze.pizzas.Where(x => x.Id == pizza.Id);
 
-            Pizza updatePizza = pizze.ListaPizze.Find(x => x.Id == pizza.Id);
+            Pizza updatePizza = db.Pizzas.Find(pizza.Id);
 
             updatePizza.Nome = pizza.Nome;
             updatePizza.Desc = pizza.Desc;
@@ -114,13 +136,25 @@ namespace la_mia_pizzeria_static.Controllers
         [HttpPost]
         public IActionResult Delete(Pizza pizza)
         {
-            Pizza updatePizza = pizze.ListaPizze.Find(x => x.Id == pizza.Id);
+            Pizza updatePizza = db.Pizzas.Find(pizza.Id);
             if (updatePizza.Id == pizza.Id)
             {
-                pizze.ListaPizze.Remove(updatePizza);
+                db.Pizzas.Remove(updatePizza);
+                db.SaveChanges();
                 //Console.WriteLine(ok);
             }
-            return RedirectToAction("Pizzeria");
+            return RedirectToAction("Pizzeria", pizze);
         }
+
+
+
+
+        // !!! DATABASE !!!
+
+
+
+
+
+
     }
 }

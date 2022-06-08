@@ -7,12 +7,13 @@
     ViewData["Title"] = "la mia pizzeria model";
 }
 
-@model la_mia_pizzeria_static.Models.pizzaList;
+@*@model la_mia_pizzeria_static.Models.pizzaList;*@
+@model la_mia_pizzeria_static.Models.PizzaContext;
 
 <h2> @Html.ActionLink("Crea La Mia Pizza", "CreaPizza", "Pizza")</h2>
 
 <div>
-    @foreach(Pizza p in Model.ListaPizze)
+    @foreach(var p in Model.Pizzas)
     {
         <div class="col-4 p-2 mb-3 card">
 
