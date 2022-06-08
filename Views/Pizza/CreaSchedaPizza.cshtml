@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Crea Tessera";
+    ViewBag.TitoloPagina = "Creazione Tessera Impiegato";
+    
+}
+
+@model la_mia_pizzeria_static.Models.Pizza;
+
+@{
+
+
+<div class="dl-border">
+    <h4>Dettagli Pizza</h4>
+    <hr />
+    <dl class="dl-horizontal">
+       
+        
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Desc)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Desc)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Prezzo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Prezzo)
+        </dd>
+        
+
+    </dl>
+ </div>
+ }
